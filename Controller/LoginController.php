@@ -32,7 +32,7 @@
                     }
                 }
                 if (isset($_POST['new'])) {
-                    header("Location: Register.php");
+                    header("Location: View/Register.php");
                     exit();
                 }
             }

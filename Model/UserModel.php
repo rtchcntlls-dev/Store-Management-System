@@ -19,4 +19,21 @@
             }
             return null;
         }
+
+        public function userExists($username, $email) {
+            $query = "SELECT * FROM admin WHERE Username = ? OR Email = ?";
+            $stmt = mysqli_prepare($this->connection, $query);
+            mysqli_stmt_bind_param($stmt, "ss", $username, $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            return mysqli_num_rows($result) > 0;
+        }
+    
+        public function registerAdmin($fullname, $username, $email, $password) {
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $query = "INSERT INTO admin (FullName, Username, Email, Password) VALUES (?, ?, ?, ?)";
+            $stmt = mysqli_prepare($this->connection, $query);
+            mysqli_stmt_bind_param($stmt, "ssss", $fullname, $username, $email, $hashedPassword);
+            return mysqli_stmt_execute($stmt);
+        }
     }
